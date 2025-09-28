@@ -28,14 +28,15 @@ jobs:
         run: zip -r deploy.zip build Dockerfile
       - name: '**PLACEHOLDER** Deploy to Elastic Beanstalk'
         run: echo Placeholder for Deployment
-    security_test:
-        needs: [deploy]
-        runs-on: ubuntu-latest
-        steps:
-        - name: ZAP Baseline Scan
-        - uses: zaproxy/action-baseline@v0.14.0
-          with:
-            target: 'https://hangryhippo.quantic.host'  # Replace with your actual deployed app URL
-            rules_file_name: 'baseline_rules.txt'
-            fail_on_error: 'true'
-            cmd_options: '-config api.disablekey=true'
+        
+  security_test:
+    needs: [deploy]
+    runs-on: ubuntu-latest
+    steps:
+      - name: ZAP Baseline Scan
+      - uses: zaproxy/action-baseline@v0.14.0
+        with:
+        target: 'https://hangryhippo.quantic.host'  # Replace with your actual deployed app URL
+        rules_file_name: 'baseline_rules.txt'
+        fail_on_error: 'true'
+        cmd_options: '-config api.disablekey=true'
